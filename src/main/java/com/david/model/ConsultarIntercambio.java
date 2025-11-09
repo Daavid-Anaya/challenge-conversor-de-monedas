@@ -37,14 +37,50 @@ public class ConsultarIntercambio {
     }
 
     public Moneda getMoneda(String moneda) {
-        return null;
+        direccion = URI.create("https://v6.exchangerate-api.com/v6/" + EXCHANGE_API_KEY + "/latest/" + moneda);
+
+        try {
+            request = HttpRequest.newBuilder()
+                .uri(direccion)
+                .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return gson.fromJson(response.body(), Moneda.class);
+        } catch (Exception e) {
+            throw new RuntimeException("No se encontró la moneda.");
+        }
     }
 
     public String[] getTasasDeCambio(String moneda) {
-        return null;
+        direccion = URI.create("https://v6.exchangerate-api.com/v6/" + EXCHANGE_API_KEY + "/latest/" + moneda);
+        try {
+            request = HttpRequest.newBuilder()
+                .uri(direccion)
+                .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            Moneda monedaObj = gson.fromJson(response.body(), Moneda.class);
+
+            Collection<String> claves = monedaObj.rates.keySet();
+            String[] tasasDeCambio = claves.toArray(new String[0]);
+
+            return tasasDeCambio;
+        } catch (Exception e) {
+            throw new RuntimeException("No se encontró la moneda.");
+        }
     }
 
     public double convertirMoneda(String deMoneda, String aMoneda, double cantidad) {
-        return 0;
+        Moneda moneda = getMoneda(deMoneda);
+        Double tasaDesde = moneda.rates.get(deMoneda);
+        Double tasaHasta = moneda.rates.get(aMoneda);
+
+        if (tasaDesde == null || tasaHasta == null) {
+            throw new IllegalArgumentException("Moneda no válida.");
+        }
+
+        return cantidad * tasaHasta;
     }
 }
