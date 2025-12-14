@@ -6,6 +6,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Collection;
 
+import javax.swing.JOptionPane;
+
 import com.david.controller.Coordinador;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -48,6 +50,7 @@ public class ConsultarIntercambio {
 
             return gson.fromJson(response.body(), Moneda.class);
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener los datos de la moneda: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("No se encontró la moneda.");
         }
     }
@@ -68,19 +71,24 @@ public class ConsultarIntercambio {
 
             return tasasDeCambio;
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener las tasas de cambio: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("No se encontró la moneda.");
         }
     }
 
-    public double convertirMoneda(String deMoneda, String aMoneda, double cantidad) {
+    public String convertirMoneda(String deMoneda, String aMoneda, double cantidad) {
         Moneda moneda = getMoneda(deMoneda);
         Double tasaDesde = moneda.rates.get(deMoneda);
         Double tasaHasta = moneda.rates.get(aMoneda);
+        double conversion = 0;
 
         if (tasaDesde == null || tasaHasta == null) {
+            JOptionPane.showMessageDialog(null, "Moneda no válida para la conversión.", "Error", JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("Moneda no válida.");
         }
 
-        return cantidad * tasaHasta;
+        conversion = (tasaHasta / tasaDesde) * cantidad;
+
+        return String.format("%.5f", conversion);
     }
 }

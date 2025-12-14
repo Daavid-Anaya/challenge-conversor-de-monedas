@@ -52,7 +52,7 @@ public class VentanaPrincipal extends JFrame {
             // ComboBoxes
             comboBoxMoneda1 = new JComboBox<String>(new DefaultComboBoxModel<String>(coordinador.getTasas("MXN")));
             comboBoxMoneda1.setFont(new Font("Consolas", Font.PLAIN, 14));
-            comboBoxMoneda1.setBounds(20, 80, 220, 25);
+            comboBoxMoneda1.setBounds(20, 80, 180, 25);
             comboBoxMoneda1.addActionListener(e -> {
                 cargarDatos();
             });
@@ -60,7 +60,7 @@ public class VentanaPrincipal extends JFrame {
 
             comboBoxMoneda2 = new JComboBox<String>(new DefaultComboBoxModel<String>(coordinador.getTasas("USD")));
             comboBoxMoneda2.setFont(new Font("Consolas", Font.PLAIN, 14));
-            comboBoxMoneda2.setBounds(20, 120, 220, 25);
+            comboBoxMoneda2.setBounds(20, 120, 180, 25);
             comboBoxMoneda2.addActionListener(e -> {
                 cargarDatos();
             });
@@ -68,12 +68,12 @@ public class VentanaPrincipal extends JFrame {
 
             txtCantidad = new JTextField("1");
             txtCantidad.setFont(new Font("Consolas", Font.PLAIN, 14));
-            txtCantidad.setBounds(250, 80, 120, 25);
+            txtCantidad.setBounds(220, 80, 150, 25);
             panelPrincipal.add(txtCantidad);
 
             txtResultado = new JTextField();
             txtResultado.setFont(new Font("Consolas", Font.PLAIN, 14));
-            txtResultado.setBounds(250, 120, 120, 25);
+            txtResultado.setBounds(220, 120, 150, 25);
             txtResultado.setEditable(false);
             panelPrincipal.add(txtResultado);
 
@@ -94,7 +94,7 @@ public class VentanaPrincipal extends JFrame {
 
             btnConvertir = new JButton("Convertir");
             btnConvertir.setFont(new Font("Consolas", Font.PLAIN, 14));
-            btnConvertir.setBounds(250, 160, 120, 27);
+            btnConvertir.setBounds(220, 160, 150, 30);
             btnConvertir.setMnemonic('a');
             btnConvertir.addActionListener(e -> {
                 txtResultado.setText(convertirMoneda());
@@ -127,6 +127,6 @@ public class VentanaPrincipal extends JFrame {
                     comboBoxMoneda1.getSelectedItem().toString(),
                     comboBoxMoneda2.getSelectedItem().toString(),
                     Double.parseDouble(txtCantidad.getText())
-                ) + "";
+                );
     }
 }

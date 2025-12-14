@@ -25,7 +25,7 @@ public class Coordinador {
         return consulta.getTasasDeCambio(moneda);
     }
 
-    public double convertirMoneda(String deMoneda, String aMoneda, double cantidad) {
+    public String convertirMoneda(String deMoneda, String aMoneda, double cantidad) {
         return consulta.convertirMoneda(deMoneda, aMoneda, cantidad);
     }
 }
