@@ -20,7 +20,7 @@ Conversor de monedas simple para practicar conceptos de Java orientado a objetos
 ## 🖥 Screenshot
 
 <p align="center">
-  <img src="./assets/img/screenshot.png" alt="Screenshot" with="200">
+  <img src="./src/main/resources/img/screenshot.png" alt="Screenshot" with="200">
 </p>
 
 ---
