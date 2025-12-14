@@ -21,11 +21,19 @@ public class Coordinador {
         return consulta.getMoneda(moneda);
     }
 
-    public String[] getTasas(String moneda) {
-        return consulta.getTasasDeCambio(moneda);
+    public String[] getTasas() {
+        return consulta.getTasasDeCambio();
     }
 
     public String convertirMoneda(String deMoneda, String aMoneda, double cantidad) {
         return consulta.convertirMoneda(deMoneda, aMoneda, cantidad);
+    }
+
+    public Double getRate(String moneda) {
+        return consulta.getRate(moneda);
+    }
+
+    public String getTimeLastUpdateUtc() {
+        return consulta.getTimeLastUpdateUtc();
     }
 }

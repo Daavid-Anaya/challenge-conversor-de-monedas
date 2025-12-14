@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,7 +16,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import com.david.controller.Coordinador;
-import com.david.model.Moneda;
 import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 
 public class VentanaPrincipal extends JFrame {
@@ -30,6 +30,7 @@ public class VentanaPrincipal extends JFrame {
     public VentanaPrincipal() {
         // Configuración de la ventana
         setTitle("Conversor de Monedas");
+        setIconImage(new ImageIcon(getClass().getResource("/img/icon.png")).getImage());
         setSize(400, 250);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -50,17 +51,19 @@ public class VentanaPrincipal extends JFrame {
             getContentPane().add(panelPrincipal);
 
             // ComboBoxes
-            comboBoxMoneda1 = new JComboBox<String>(new DefaultComboBoxModel<String>(coordinador.getTasas("MXN")));
+            comboBoxMoneda1 = new JComboBox<String>(new DefaultComboBoxModel<String>(coordinador.getTasas()));
             comboBoxMoneda1.setFont(new Font("Consolas", Font.PLAIN, 14));
             comboBoxMoneda1.setBounds(20, 80, 180, 25);
+            comboBoxMoneda1.setSelectedItem("MXN");
             comboBoxMoneda1.addActionListener(e -> {
                 cargarDatos();
             });
             panelPrincipal.add(comboBoxMoneda1);
 
-            comboBoxMoneda2 = new JComboBox<String>(new DefaultComboBoxModel<String>(coordinador.getTasas("USD")));
+            comboBoxMoneda2 = new JComboBox<String>(new DefaultComboBoxModel<String>(coordinador.getTasas()));
             comboBoxMoneda2.setFont(new Font("Consolas", Font.PLAIN, 14));
             comboBoxMoneda2.setBounds(20, 120, 180, 25);
+            comboBoxMoneda2.setSelectedItem("USD");
             comboBoxMoneda2.addActionListener(e -> {
                 cargarDatos();
             });
@@ -113,11 +116,8 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void cargarDatos() {
-        Moneda moneda = coordinador.getMoneda(comboBoxMoneda1.getSelectedItem().toString());
-        comboBoxMoneda1.setModel(new DefaultComboBoxModel<String>(coordinador.getTasas(comboBoxMoneda1.getSelectedItem().toString())));
-        comboBoxMoneda2.setModel(new DefaultComboBoxModel<String>(coordinador.getTasas(comboBoxMoneda2.getSelectedItem().toString())));
-        lblDescripcion.setText(moneda.rates.get(comboBoxMoneda1.getSelectedItem().toString()) + " " + comboBoxMoneda1.getSelectedItem().toString() + " Es igual a " + moneda.rates.get(comboBoxMoneda2.getSelectedItem().toString()) + " " + comboBoxMoneda2.getSelectedItem().toString());
-        lblFecha.setText(moneda.timeLastUpdateUtc);
+        lblDescripcion.setText(coordinador.getRate(comboBoxMoneda1.getSelectedItem().toString()) + " " + comboBoxMoneda1.getSelectedItem().toString() + " Es igual a " + coordinador.getRate(comboBoxMoneda2.getSelectedItem().toString()) + " " + comboBoxMoneda2.getSelectedItem().toString());
+        lblFecha.setText(coordinador.getTimeLastUpdateUtc());
         txtCantidad.setText(txtCantidad.getText());
         txtResultado.setText(convertirMoneda());
     }
